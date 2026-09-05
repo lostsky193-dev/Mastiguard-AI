@@ -1,0 +1,5000 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#10160F"
+    >
+
+    <title>
+        Mastiguard-AI | Bovine Mastitis Intelligence
+    </title>
+
+
+    <!-- =====================================================
+         GOOGLE FONTS
+    ====================================================== -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+
+    <!-- =====================================================
+         BOOTSTRAP ICONS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- =====================================================
+         CHART.JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"
+    ></script>
+
+
+    <!-- =====================================================
+         LEAFLET
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    ></script>
+
+
+    <!-- =====================================================
+         MASTIGUARD CSS
+    ====================================================== -->
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/dashboard.css') }}"
+    >
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
+
+
+        <!-- =================================================
+             BRAND
+        ================================================== -->
+
+        <div class="brand">
+
+            <div class="brand-mark">
+
+                <i class="bi bi-heart-pulse-fill"></i>
+
+            </div>
+
+
+            <div>
+
+                <div class="brand-name">
+                    Mastiguard
+                </div>
+
+                <div class="brand-subtitle">
+                    AI Health Intelligence
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FARM SELECTOR
+        ================================================== -->
+
+        <div class="farm-box">
+
+            <span class="eyebrow">
+                ACTIVE FARM
+            </span>
+
+
+            <select id="farmSelect">
+
+                <option value="FARM-001">
+                    FARM-001 • West Bengal
+                </option>
+
+                <option value="FARM-002">
+                    FARM-002 • Cooperative Unit
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
+
+        <nav class="navigation">
+
+
+            <!-- MONITORING -->
+
+            <div class="nav-heading">
+                MONITORING
+            </div>
+
+
+            <button
+                type="button"
+                class="nav-link active"
+                data-page="overview"
+            >
+
+                <i class="bi bi-grid-1x2-fill"></i>
+
+                <span>
+                    Overview
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="animals"
+            >
+
+                <i class="bi bi-cow"></i>
+
+                <span>
+                    Animal Monitor
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="herd"
+            >
+
+                <i class="bi bi-diagram-3-fill"></i>
+
+                <span>
+                    Herd Risk
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="forecast"
+            >
+
+                <i class="bi bi-graph-up-arrow"></i>
+
+                <span>
+                    7–14 Day Forecast
+                </span>
+
+            </button>
+
+
+            <!-- HEALTH DATA -->
+
+            <div class="nav-heading">
+                HEALTH DATA
+            </div>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="milk"
+            >
+
+                <i class="bi bi-droplet-half"></i>
+
+                <span>
+                    Milk Intelligence
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="health"
+            >
+
+                <i class="bi bi-activity"></i>
+
+                <span>
+                    Animal Health
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="environment"
+            >
+
+                <i class="bi bi-cloud-sun"></i>
+
+                <span>
+                    Environment
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="nutrition"
+            >
+
+                <i class="bi bi-basket2-fill"></i>
+
+                <span>
+                    Feeding & Nutrition
+                </span>
+
+            </button>
+
+
+            <!-- FARM OPERATIONS -->
+
+            <div class="nav-heading">
+                FARM OPERATIONS
+            </div>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="hygiene"
+            >
+
+                <i class="bi bi-shield-check"></i>
+
+                <span>
+                    Housing & Hygiene
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="milking"
+            >
+
+                <i class="bi bi-clock-history"></i>
+
+                <span>
+                    Milking Operations
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="records"
+            >
+
+                <i class="bi bi-journal-medical"></i>
+
+                <span>
+                    Health Records
+                </span>
+
+            </button>
+
+
+            <!-- INTELLIGENCE -->
+
+            <div class="nav-heading">
+                INTELLIGENCE
+            </div>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="alerts"
+            >
+
+                <i class="bi bi-bell-fill"></i>
+
+                <span>
+                    Alerts
+                </span>
+
+                <span
+                    class="nav-counter"
+                    id="alertCount"
+                >
+                    0
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="recommendations"
+            >
+
+                <i class="bi bi-lightbulb-fill"></i>
+
+                <span>
+                    Recommendations
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="gis"
+            >
+
+                <i class="bi bi-geo-alt-fill"></i>
+
+                <span>
+                    GIS & Hotspots
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="ai"
+            >
+
+                <i class="bi bi-cpu-fill"></i>
+
+                <span>
+                    AI Model
+                </span>
+
+            </button>
+
+
+            <!-- SYSTEM -->
+
+            <div class="nav-heading">
+                SYSTEM
+            </div>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="reports"
+            >
+
+                <i class="bi bi-file-earmark-bar-graph-fill"></i>
+
+                <span>
+                    Reports
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="settings"
+            >
+
+                <i class="bi bi-gear-fill"></i>
+
+                <span>
+                    Settings
+                </span>
+
+            </button>
+
+        </nav>
+
+
+        <!-- =================================================
+             SIDEBAR STATUS
+        ================================================== -->
+
+        <div class="sidebar-bottom">
+
+
+            <div class="connection-row">
+
+                <span class="online-dot"></span>
+
+                <div>
+
+                    <strong>
+                        Cloud Connected
+                    </strong>
+
+                    <small>
+                        Flask API Online
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="connection-row">
+
+                <span class="online-dot"></span>
+
+                <div>
+
+                    <strong>
+                        ESP32 Gateway
+                    </strong>
+
+                    <small id="espStatus">
+                        Waiting for sensor data
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN APPLICATION
+    ====================================================== -->
+
+    <main class="main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <header class="topbar">
+
+
+            <div class="topbar-left">
+
+
+                <button
+                    type="button"
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    aria-label="Open navigation"
+                >
+
+                    <i class="bi bi-list"></i>
+
+                </button>
+
+
+                <div>
+
+                    <span class="eyebrow">
+                        BOVINE HEALTH PLATFORM
+                    </span>
+
+
+                    <h1 id="pageTitle">
+                        Herd Overview
+                    </h1>
+
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+
+                <div class="system-status">
+
+                    <span class="online-dot"></span>
+
+                    System Online
+
+                </div>
+
+
+                <div class="sync-time">
+
+                    Last sync
+
+                    <strong id="lastSync">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <select
+                    class="language"
+                    id="language"
+                    aria-label="Language"
+                >
+
+                    <option>
+                        English
+                    </option>
+
+                    <option>
+                        বাংলা
+                    </option>
+
+                    <option>
+                        हिन्दी
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="button"
+                    class="header-icon"
+                    aria-label="Notifications"
+                >
+
+                    <i class="bi bi-bell"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <div class="content">
+
+
+            <!-- =================================================
+                 OVERVIEW
+            ================================================== -->
+
+            <section
+                class="page active-page"
+                id="page-overview"
+            >
+
+
+                <div class="hero">
+
+
+                    <div>
+
+                        <span class="eyebrow">
+                            FARM INTELLIGENCE
+                        </span>
+
+
+                        <h2>
+                            Herd Overview
+                        </h2>
+
+
+                        <p>
+                            Monitor mastitis risk, milk quality,
+                            animal health and farm conditions
+                            from one intelligent platform.
+                        </p>
+
+                    </div>
+
+
+                    <div class="date-box">
+
+                        <i class="bi bi-calendar3"></i>
+
+                        <div>
+
+                            <span>
+                                Monitoring Date
+                            </span>
+
+                            <strong id="currentDate">
+                                --
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- KPI -->
+
+                <div class="kpi-grid">
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon blue">
+
+                            <i class="bi bi-cow"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Total Animals
+                            </span>
+
+                            <strong id="totalAnimals">
+                                0
+                            </strong>
+
+                            <small>
+                                Active herd
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon green">
+
+                            <i class="bi bi-shield-check"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                No Risk
+                            </span>
+
+                            <strong id="noRisk">
+                                0
+                            </strong>
+
+                            <small>
+                                Stable
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon yellow">
+
+                            <i class="bi bi-exclamation-triangle"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                Moderate Risk
+                            </span>
+
+                            <strong id="moderateRisk">
+                                0
+                            </strong>
+
+                            <small>
+                                Monitor closely
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kpi-card">
+
+                        <div class="kpi-icon red">
+
+                            <i class="bi bi-shield-exclamation"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                High Risk
+                            </span>
+
+                            <strong id="highRisk">
+                                0
+                            </strong>
+
+                            <small>
+                                Requires attention
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RISK + LIVE IOT -->
+
+                <div class="two-grid">
+
+
+                    <!-- HERD RISK -->
+
+                    <div class="card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    HERD MASTITIS RISK
+                                </span>
+
+                                <h3>
+                                    Current Risk Assessment
+                                </h3>
+
+                            </div>
+
+
+                            <span class="live-label">
+
+                                <span class="online-dot"></span>
+
+                                LIVE
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="risk-panel">
+
+
+                            <div
+                                class="risk-ring"
+                                id="riskRing"
+                            >
+
+                                <div class="risk-ring-inner">
+
+                                    <strong id="herdRisk">
+                                        0
+                                    </strong>
+
+                                    <span>
+                                        / 100
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="risk-info">
+
+
+                                <div
+                                    class="risk-title"
+                                    id="herdRiskLevel"
+                                >
+                                    NO DATA
+                                </div>
+
+
+                                <p id="herdRiskDescription">
+                                    Waiting for live sensor readings.
+                                </p>
+
+
+                                <div class="mini-stats">
+
+
+                                    <div>
+
+                                        <span>
+                                            7-Day
+                                        </span>
+
+                                        <strong>
+                                            —
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+                                            14-Day
+                                        </span>
+
+                                        <strong>
+                                            —
+                                        </strong>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <span>
+                                            Confidence
+                                        </span>
+
+                                        <strong>
+                                            Demo
+                                        </strong>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ESP32 -->
+
+                    <div class="card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    IOT GATEWAY
+                                </span>
+
+                                <h3>
+                                    ESP32 Live Readings
+                                </h3>
+
+                            </div>
+
+
+                            <span class="live-label">
+
+                                <span class="online-dot"></span>
+
+                                LIVE
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="sensor-grid">
+
+
+                            <div class="sensor-box">
+
+                                <div class="sensor-label">
+
+                                    Temperature
+
+                                    <i class="bi bi-thermometer-half"></i>
+
+                                </div>
+
+
+                                <strong id="liveTemperature">
+                                    --
+                                </strong>
+
+                                <small>
+                                    °C
+                                </small>
+
+                            </div>
+
+
+                            <div class="sensor-box">
+
+                                <div class="sensor-label">
+
+                                    Milk EC
+
+                                    <i class="bi bi-lightning-charge-fill"></i>
+
+                                </div>
+
+
+                                <strong id="liveEC">
+                                    --
+                                </strong>
+
+                                <small>
+                                    mS/cm
+                                </small>
+
+                            </div>
+
+
+                            <div class="sensor-box">
+
+                                <div class="sensor-label">
+
+                                    Milk pH
+
+                                    <i class="bi bi-droplet-fill"></i>
+
+                                </div>
+
+
+                                <strong id="livePH">
+                                    --
+                                </strong>
+
+                                <small>
+                                    pH
+                                </small>
+
+                            </div>
+
+
+                            <div class="sensor-box">
+
+                                <div class="sensor-label">
+
+                                    SCC Demo
+
+                                    <i class="bi bi-bar-chart-fill"></i>
+
+                                </div>
+
+
+                                <strong id="liveSCC">
+                                    --
+                                </strong>
+
+                                <small>
+                                    simulated %
+                                </small>
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="device-summary">
+
+
+                            <div>
+
+                                <span>
+                                    Risk Score
+                                </span>
+
+                                <strong id="liveRisk">
+                                    -- / 100
+                                </strong>
+
+                            </div>
+
+
+                            <div>
+
+                                <span>
+                                    Risk Level
+                                </span>
+
+                                <strong id="liveRiskLevel">
+                                    WAITING
+                                </strong>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CHARTS -->
+
+                <div class="two-grid">
+
+
+                    <div class="card chart-card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    TREND ANALYSIS
+                                </span>
+
+                                <h3>
+                                    SCC & Risk Trend
+                                </h3>
+
+                            </div>
+
+
+                            <span class="small-pill">
+                                Recent readings
+                            </span>
+
+                        </div>
+
+
+                        <div class="chart-area">
+
+                            <canvas id="riskChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card chart-card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    SENSOR TREND
+                                </span>
+
+                                <h3>
+                                    Temperature & EC
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-area">
+
+                            <canvas id="sensorChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTS + TOP ANIMALS -->
+
+                <div class="two-grid">
+
+
+                    <div class="card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    EARLY WARNING
+                                </span>
+
+                                <h3>
+                                    Active Alerts
+                                </h3>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="text-button"
+                                data-jump="alerts"
+                            >
+                                View all
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="alert-list"
+                            id="overviewAlerts"
+                        >
+
+                            <div class="empty">
+                                No active alerts.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    HERD MONITORING
+                                </span>
+
+                                <h3>
+                                    Animals Requiring Attention
+                                </h3>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="text-button"
+                                data-jump="animals"
+                            >
+                                View all
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            class="animal-mini-list"
+                            id="topAnimals"
+                        >
+
+                            <div class="empty">
+                                Waiting for sensor data.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PLATFORM COVERAGE -->
+
+                <div class="card coverage-card">
+
+
+                    <div class="card-head">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                PLATFORM COVERAGE
+                            </span>
+
+                            <h3>
+                                Mastiguard Intelligence Modules
+                            </h3>
+
+                        </div>
+
+
+                        <span class="small-pill">
+                            16 modules
+                        </span>
+
+                    </div>
+
+
+                    <div class="module-grid">
+
+
+                        <div class="module">
+                            <i class="bi bi-cow"></i>
+                            <strong>Animal Profiles</strong>
+                            <small>Breed • age • lactation</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-droplet-half"></i>
+                            <strong>Milk Intelligence</strong>
+                            <small>SCC • EC • pH • yield</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-activity"></i>
+                            <strong>Animal Health</strong>
+                            <small>Temperature • activity</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-cloud-sun"></i>
+                            <strong>Environment</strong>
+                            <small>Climate • housing</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-basket2-fill"></i>
+                            <strong>Nutrition</strong>
+                            <small>Feed • water</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-shield-check"></i>
+                            <strong>Hygiene</strong>
+                            <small>Cleaning • biosecurity</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-clock-history"></i>
+                            <strong>Milking</strong>
+                            <small>Operations • schedule</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-file-medical"></i>
+                            <strong>Laboratory</strong>
+                            <small>Tests • results</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-capsule"></i>
+                            <strong>Treatment</strong>
+                            <small>Health history</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-heart-pulse"></i>
+                            <strong>Vaccination</strong>
+                            <small>Immunization</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-graph-up-arrow"></i>
+                            <strong>Forecast</strong>
+                            <small>7–14 day outlook</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-bell-fill"></i>
+                            <strong>Alerts</strong>
+                            <small>Early warning</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-lightbulb-fill"></i>
+                            <strong>Recommendations</strong>
+                            <small>Decision support</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <strong>GIS</strong>
+                            <small>Hotspots • clusters</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-cpu-fill"></i>
+                            <strong>AI Engine</strong>
+                            <small>Risk • explainability</small>
+                        </div>
+
+
+                        <div class="module">
+                            <i class="bi bi-phone-fill"></i>
+                            <strong>Mobile</strong>
+                            <small>Field deployment</small>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 ANIMAL MONITOR
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page-animals"
+            >
+
+
+                <div class="page-heading">
+
+
+                    <div>
+
+                        <span class="eyebrow">
+                            INDIVIDUAL MONITORING
+                        </span>
+
+                        <h2>
+                            Animal Monitor
+                        </h2>
+
+                        <p>
+                            Animal-wise health data and mastitis risk.
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                    >
+
+                        <i class="bi bi-plus-lg"></i>
+
+                        Add Animal
+
+                    </button>
+
+                </div>
+
+
+                <div class="stats-row">
+
+
+                    <div>
+
+                        <span>
+                            Total Animals
+                        </span>
+
+                        <strong id="animalsTotal">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            High Risk
+                        </span>
+
+                        <strong id="animalsHigh">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Moderate
+                        </span>
+
+                        <strong id="animalsModerate">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Stable
+                        </span>
+
+                        <strong id="animalsStable">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="card table-card">
+
+
+                    <div class="table-toolbar">
+
+
+                        <input
+                            type="text"
+                            id="animalSearch"
+                            placeholder="Search animal, tag or breed..."
+                            autocomplete="off"
+                        >
+
+
+                        <select id="riskFilter">
+
+                            <option value="ALL">
+                                All Risk Levels
+                            </option>
+
+                            <option value="HIGH RISK">
+                                High Risk
+                            </option>
+
+                            <option value="MODERATE RISK">
+                                Moderate
+                            </option>
+
+                            <option value="LOW RISK">
+                                Low Risk
+                            </option>
+
+                            <option value="NO RISK">
+                                No Risk
+                            </option>
+
+                        </select>
+
+
+                    </div>
+
+
+                    <div class="table-scroll">
+
+
+                        <table>
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Animal
+                                    </th>
+
+                                    <th>
+                                        Breed
+                                    </th>
+
+                                    <th>
+                                        Lactation
+                                    </th>
+
+                                    <th>
+                                        Temperature
+                                    </th>
+
+                                    <th>
+                                        EC
+                                    </th>
+
+                                    <th>
+                                        pH
+                                    </th>
+
+                                    <th>
+                                        SCC
+                                    </th>
+
+                                    <th>
+                                        Risk
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="animalTable">
+                            </tbody>
+
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 HERD RISK
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page-herd"
+            >
+
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            HERD INTELLIGENCE
+                        </span>
+
+                        <h2>
+                            Herd Risk
+                        </h2>
+
+                        <p>
+                            Herd-level risk distribution and movement.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="stats-row">
+
+
+                    <div>
+
+                        <span>
+                            Herd Risk
+                        </span>
+
+                        <strong id="herdPageRisk">
+                            --
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            High Risk
+                        </span>
+
+                        <strong id="herdPageHigh">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Moderate
+                        </span>
+
+                        <strong id="herdPageModerate">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Stable
+                        </span>
+
+                        <strong id="herdPageStable">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="two-grid">
+
+
+                    <div class="card chart-card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    DISTRIBUTION
+                                </span>
+
+                                <h3>
+                                    Risk Categories
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-area">
+
+                            <canvas id="herdChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card chart-card">
+
+
+                        <div class="card-head">
+
+                            <div>
+
+                                <span class="eyebrow">
+                                    HERD TREND
+                                </span>
+
+                                <h3>
+                                    Risk Timeline
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="chart-area">
+
+                            <canvas id="herdTrendChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="herd-status-panel">
+
+
+                    <div class="herd-status-card">
+
+                        <span class="eyebrow">
+                            HERD INTERPRETATION
+                        </span>
+
+                        <h3>
+                            Risk Status
+                        </h3>
+
+                        <p id="herdPageDescription">
+                            Waiting for live herd data.
+                        </p>
+
+                    </div>
+
+
+                    <div class="herd-status-card">
+
+                        <span class="eyebrow">
+                            RISK SCALE
+                        </span>
+
+                        <h3>
+                            Monitoring bands
+                        </h3>
+
+
+                        <div class="herd-legend">
+
+
+                            <div class="herd-legend-item">
+
+                                <span class="herd-legend-dot no"></span>
+
+                                No Risk
+
+                            </div>
+
+
+                            <div class="herd-legend-item">
+
+                                <span class="herd-legend-dot low"></span>
+
+                                Low Risk
+
+                            </div>
+
+
+                            <div class="herd-legend-item">
+
+                                <span class="herd-legend-dot moderate"></span>
+
+                                Moderate
+
+                            </div>
+
+
+                            <div class="herd-legend-item">
+
+                                <span class="herd-legend-dot high"></span>
+
+                                High Risk
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FORECAST
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page-forecast"
+            >
+
+
+                <div class="page-heading">
+
+
+                    <div>
+
+                        <span class="eyebrow">
+                            PREDICTIVE INTELLIGENCE
+                        </span>
+
+                        <h2>
+                            7–14 Day Forecast
+                        </h2>
+
+                        <p>
+                            Future mastitis-risk forecasting.
+                        </p>
+
+                    </div>
+
+
+                    <span class="status-pill">
+                        MODEL READY
+                    </span>
+
+                </div>
+
+
+                <div class="forecast-notice">
+
+
+                    <div>
+
+                        <span class="eyebrow">
+                            VALIDATION STATUS
+                        </span>
+
+                        <h3>
+                            Longitudinal data required
+                        </h3>
+
+                        <p>
+                            The platform supports 7–14 day forecasting.
+                            Scientific validation requires time-stamped
+                            longitudinal mastitis records.
+                        </p>
+
+                    </div>
+
+
+                    <strong>
+                        PROTOTYPE
+                    </strong>
+
+                </div>
+
+
+                <div class="forecast-cards">
+
+
+                    <div>
+                        <span>
+                            Today
+                        </span>
+
+                        <strong id="forecast0">
+                            --
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            +3 Days
+                        </span>
+
+                        <strong id="forecast3">
+                            --
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            +7 Days
+                        </span>
+
+                        <strong id="forecast7">
+                            --
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            +10 Days
+                        </span>
+
+                        <strong id="forecast10">
+                            --
+                        </strong>
+                    </div>
+
+
+                    <div>
+                        <span>
+                            +14 Days
+                        </span>
+
+                        <strong id="forecast14">
+                            --
+                        </strong>
+                    </div>
+
+
+                </div>
+
+
+                <div class="card chart-card large-chart">
+
+
+                    <div class="card-head">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                PREDICTIVE TREND
+                            </span>
+
+                            <h3>
+                                Risk Forecast
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-area">
+
+                        <canvas id="forecastChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+               
+<!-- =================================================
+     MILK INTELLIGENCE
+================================================== -->
+
+<section
+    class="page"
+    id="page-milk"
+>
+
+    <div class="page-heading">
+
+        <div>
+
+            <span class="eyebrow">
+                MILK QUALITY INTELLIGENCE
+            </span>
+
+            <h2>
+                Milk Intelligence
+            </h2>
+
+            <p>
+                Live milk-quality indicators, trend monitoring
+                and prototype screening status.
+            </p>
+
+        </div>
+
+        <span
+            class="status-pill"
+            id="milkStatus"
+        >
+            WAITING
+        </span>
+
+    </div>
+
+
+    <!-- =================================================
+         LIVE MILK METRICS
+    ================================================== -->
+
+    <div class="metrics-grid">
+
+
+        <div class="metric-card live">
+
+            <span>
+                Milk EC
+            </span>
+
+            <strong id="milkEC">
+                --
+            </strong>
+
+            <small>
+                mS/cm • LIVE
+            </small>
+
+        </div>
+
+
+        <div class="metric-card live">
+
+            <span>
+                Milk pH
+            </span>
+
+            <strong id="milkPH">
+                --
+            </strong>
+
+            <small>
+                pH • LIVE
+            </small>
+
+        </div>
+
+
+        <div class="metric-card live">
+
+            <span>
+                SCC Demo
+            </span>
+
+            <strong id="milkSCC">
+                --
+            </strong>
+
+            <small>
+                prototype value
+            </small>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <span>
+                Milk Yield
+            </span>
+
+            <strong id="milkYield">
+                --
+            </strong>
+
+            <small>
+                Requires yield sensor
+            </small>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =================================================
+         MILK STATUS + ACTIVE ANIMAL
+    ================================================== -->
+
+    <div class="milk-intelligence-grid">
+
+
+        <div class="card milk-status-card">
+
+            <div class="card-head">
+
+                <div>
+
+                    <span class="eyebrow">
+                        CURRENT SCREENING
+                    </span>
+
+                    <h3>
+                        Milk Quality Status
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <div class="milk-status-main">
+
+                <div
+                    class="milk-status-icon"
+                    id="milkStatusIcon"
+                >
+
+                    <i class="bi bi-droplet-half"></i>
+
+                </div>
+
+
+                <div>
+
+                    <strong
+                        id="milkQualityStatus"
+                    >
+                        WAITING FOR DATA
+                    </strong>
+
+                    <p
+                        id="milkQualityDescription"
+                    >
+                        Live milk-quality indicators will appear here.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="milk-indicator-list">
+
+
+                <div>
+
+                    <span>
+                        EC
+                    </span>
+
+                    <strong
+                        id="milkECStatus"
+                    >
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        pH
+                    </span>
+
+                    <strong
+                        id="milkPHStatus"
+                    >
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        SCC
+                    </span>
+
+                    <strong
+                        id="milkSCCStatus"
+                    >
+                        --
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="card milk-animal-card">
+
+            <div class="card-head">
+
+                <div>
+
+                    <span class="eyebrow">
+                        ACTIVE SENSOR SOURCE
+                    </span>
+
+                    <h3>
+                        Current Animal
+                    </h3>
+
+                </div>
+
+                <span class="live-label">
+
+                    <span class="online-dot"></span>
+
+                    LIVE
+
+                </span>
+
+            </div>
+
+
+            <div class="milk-animal-name">
+
+                <div class="milk-animal-avatar">
+
+                    <i class="bi bi-cow"></i>
+
+                </div>
+
+
+                <div>
+
+                    <strong
+                        id="milkAnimalTag"
+                    >
+                        --
+                    </strong>
+
+                    <small
+                        id="milkAnimalName"
+                    >
+                        Waiting for sensor data
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="milk-animal-meta">
+
+
+                <div>
+
+                    <span>
+                        Risk
+                    </span>
+
+                    <strong
+                        id="milkAnimalRisk"
+                    >
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Last Reading
+                    </span>
+
+                    <strong
+                        id="milkLastReading"
+                    >
+                        --
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         MILK TREND
+    ================================================== -->
+
+    <div class="card chart-card large-chart">
+
+        <div class="card-head">
+
+            <div>
+
+                <span class="eyebrow">
+                    TREND ANALYSIS
+                </span>
+
+                <h3>
+                    Milk Quality Trend
+                </h3>
+
+            </div>
+
+
+            <span class="small-pill">
+                Recent readings
+            </span>
+
+        </div>
+
+
+        <div class="chart-area">
+
+            <canvas id="milkTrendChart"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         DATA SOURCES
+    ================================================== -->
+
+    <div class="card milk-data-card">
+
+        <div class="card-head">
+
+            <div>
+
+                <span class="eyebrow">
+                    DATA SOURCES
+                </span>
+
+                <h3>
+                    Integration Status
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="milk-source-grid">
+
+
+            <div class="milk-source">
+
+                <div class="milk-source-icon">
+                    <i class="bi bi-lightning-charge-fill"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Conductivity / EC
+                    </strong>
+
+                    <small>
+                        Live prototype sensor
+                    </small>
+
+                </div>
+
+                <span class="source-state live-state">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div class="milk-source">
+
+                <div class="milk-source-icon">
+                    <i class="bi bi-droplet-fill"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        pH
+                    </strong>
+
+                    <small>
+                        Live prototype sensor
+                    </small>
+
+                </div>
+
+                <span class="source-state live-state">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div class="milk-source">
+
+                <div class="milk-source-icon">
+                    <i class="bi bi-bar-chart-fill"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        SCC
+                    </strong>
+
+                    <small>
+                        Demonstration input
+                    </small>
+
+                </div>
+
+                <span class="source-state demo-state">
+                    DEMO
+                </span>
+
+            </div>
+
+
+            <div class="milk-source">
+
+                <div class="milk-source-icon">
+                    <i class="bi bi-beaker-fill"></i>
+                </div>
+
+                <div>
+
+                    <strong>
+                        Laboratory Validation
+                    </strong>
+
+                    <small>
+                        Reference testing
+                    </small>
+
+                </div>
+
+                <span class="source-state planned-state">
+                    PLANNED
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         NOTICE
+    ================================================== -->
+
+    <div class="milk-notice">
+
+        <i class="bi bi-info-circle-fill"></i>
+
+        <p>
+            Milk EC, pH and SCC values are screening indicators
+            in the current prototype. They should be interpreted
+            together with animal history, trends and validated
+            veterinary or laboratory assessment.
+        </p>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ANIMAL HEALTH
+     ========================================================= -->
+<section class="page" id="page-health">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">HEALTH DATA</span>
+            <h1>Animal Health</h1>
+            <p>Risk-linked physiological screening and animal health records.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="healthStatus">
+                <span class="status-dot"></span>
+                HEALTH SCREENING
+            </span>
+        </div>
+    </div>
+
+    <!-- Health summary -->
+    <div class="health-summary-grid">
+
+        <div class="card health-status-card">
+            <div class="health-status-top">
+
+                <div class="health-status-icon stable" id="healthStatusIcon">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+
+                <div>
+                    <span class="eyebrow">CURRENT SCREENING</span>
+                    <h2 id="healthStatusTitle">Waiting for animal data</h2>
+                    <p id="healthStatusDescription">
+                        Live animal health screening will appear here when sensor data is available.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="health-status-footer">
+                <div>
+                    <span class="metric-label">Animal</span>
+                    <strong id="healthAnimalTag">—</strong>
+                </div>
+
+                <div>
+                    <span class="metric-label">Risk Score</span>
+                    <strong id="healthAnimalRisk">—</strong>
+                </div>
+
+                <div>
+                    <span class="metric-label">Last Reading</span>
+                    <strong id="healthLastReading">—</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="card health-animal-card">
+            <div class="health-animal-header">
+
+                <div class="health-animal-avatar">
+                    <i class="bi bi-cow"></i>
+                </div>
+
+                <div>
+                    <span class="eyebrow">ACTIVE ANIMAL</span>
+                    <h3 id="healthAnimalName">—</h3>
+                    <p>
+                        Tag:
+                        <strong id="healthAnimalTagLarge">—</strong>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="health-animal-meta">
+                <div>
+                    <span>Risk Level</span>
+                    <strong id="healthRiskLevel">—</strong>
+                </div>
+
+                <div>
+                    <span>Health Mode</span>
+                    <strong>AI Screening</strong>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Physiological screening -->
+    <div class="section-title">
+        <div>
+            <span class="eyebrow">PHYSIOLOGICAL SCREENING</span>
+            <h2>Current Indicators</h2>
+        </div>
+    </div>
+
+    <div class="metric-grid health-metrics-grid">
+
+        <div class="card metric-card health-metric">
+            <div class="metric-icon">
+                <i class="bi bi-thermometer-half"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Sensor Temperature</span>
+                <strong id="healthTemperature">—</strong>
+                <small id="healthTemperatureStatus">
+                    Prototype sensor reading
+                </small>
+            </div>
+        </div>
+
+        <div class="card metric-card health-metric unavailable">
+            <div class="metric-icon">
+                <i class="bi bi-activity"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Activity</span>
+                <strong id="healthActivity">Not Integrated</strong>
+                <small>Motion sensor required</small>
+            </div>
+        </div>
+
+        <div class="card metric-card health-metric unavailable">
+            <div class="metric-icon">
+                <i class="bi bi-moon-stars"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Rumination</span>
+                <strong id="healthRumination">Not Integrated</strong>
+                <small>Dedicated monitoring required</small>
+            </div>
+        </div>
+
+        <div class="card metric-card health-metric unavailable">
+            <div class="metric-icon">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Udder Temperature</span>
+                <strong id="healthUdderTemp">Not Integrated</strong>
+                <small>Infrared sensor required</small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Health interpretation -->
+    <div class="health-main-grid">
+
+        <div class="card health-screening-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">AI INTERPRETATION</span>
+                    <h3>Health Screening Summary</h3>
+                </div>
+
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div class="health-screening-body">
+
+                <div class="health-screening-row">
+                    <div class="screening-icon">
+                        <i class="bi bi-speedometer2"></i>
+                    </div>
+
+                    <div>
+                        <strong>Risk-linked screening</strong>
+                        <p id="healthRiskSummary">
+                            Waiting for the current animal risk score.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="health-screening-row">
+                    <div class="screening-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+
+                    <div>
+                        <strong>Sensor integration</strong>
+                        <p>
+                            Current prototype provides sensor temperature and
+                            mastitis-related screening indicators.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="health-screening-row">
+                    <div class="screening-icon">
+                        <i class="bi bi-database"></i>
+                    </div>
+
+                    <div>
+                        <strong>Clinical history</strong>
+                        <p id="healthHistorySummary">
+                            No validated clinical history is connected to the dashboard.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card health-record-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">HEALTH RECORD</span>
+                    <h3>Animal Profile</h3>
+                </div>
+
+                <i class="bi bi-clipboard2-pulse"></i>
+            </div>
+
+            <div class="health-record-list">
+
+                <div class="health-record-row">
+                    <span>
+                        <i class="bi bi-bandaid"></i>
+                        Previous Mastitis
+                    </span>
+
+                    <strong id="healthPreviousMastitis">
+                        Not Available
+                    </strong>
+                </div>
+
+                <div class="health-record-row">
+                    <span>
+                        <i class="bi bi-virus"></i>
+                        Disease History
+                    </span>
+
+                    <strong id="healthDiseaseHistory">
+                        Not Available
+                    </strong>
+                </div>
+
+                <div class="health-record-row">
+                    <span>
+                        <i class="bi bi-capsule"></i>
+                        Treatment
+                    </span>
+
+                    <strong id="healthTreatment">
+                        Not Available
+                    </strong>
+                </div>
+
+                <div class="health-record-row">
+                    <span>
+                        <i class="bi bi-shield-plus"></i>
+                        Vaccination
+                    </span>
+
+                    <strong id="healthVaccination">
+                        Not Available
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Important limitation -->
+    <div class="card health-notice">
+
+        <div class="health-notice-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+            <strong>Prototype health-screening limitation</strong>
+
+            <p>
+                The current ESP32 temperature value is a prototype sensor reading
+                and should not be interpreted as core body temperature. Activity,
+                rumination, udder temperature and clinical-history fields require
+                additional sensors or database integration. The AI risk score is
+                decision-support information and is not a veterinary diagnosis.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ENVIRONMENT
+     ========================================================= -->
+<section class="page" id="page-environment">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">HEALTH DATA</span>
+            <h1>Environment</h1>
+            <p>Live farm climate monitoring and environmental risk screening.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="environmentStatus">
+                <span class="status-dot"></span>
+                ENVIRONMENT MONITORING
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Live climate metrics -->
+    <div class="metric-grid environment-metrics-grid">
+
+        <div class="card metric-card environment-metric">
+            <div class="metric-icon temperature">
+                <i class="bi bi-thermometer-half"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Temperature</span>
+                <strong id="environmentTemperature">—</strong>
+                <small id="environmentTemperatureStatus">
+                    Waiting for sensor
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card environment-metric">
+            <div class="metric-icon humidity">
+                <i class="bi bi-droplet-half"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Relative Humidity</span>
+                <strong id="environmentHumidity">—</strong>
+                <small id="environmentHumidityStatus">
+                    Waiting for sensor
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card environment-metric">
+            <div class="metric-icon climate">
+                <i class="bi bi-cloud-sun"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Climate Risk</span>
+                <strong id="climateRisk">—</strong>
+                <small id="climateRiskDescription">
+                    Awaiting live climate data
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card environment-metric">
+            <div class="metric-icon gateway">
+                <i class="bi bi-broadcast-pin"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Data Source</span>
+                <strong id="environmentSource">—</strong>
+                <small id="environmentLastReading">
+                    No reading yet
+                </small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Environmental interpretation -->
+    <div class="environment-main-grid">
+
+        <div class="card environment-overview-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">CLIMATE INTELLIGENCE</span>
+                    <h3>Current Environment Status</h3>
+                </div>
+
+                <i class="bi bi-cloud-haze2"></i>
+            </div>
+
+
+            <div class="environment-status-main">
+
+                <div class="environment-status-icon stable" id="environmentStatusIcon">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+
+                <div>
+                    <span class="metric-label">Current Assessment</span>
+
+                    <h2 id="environmentStatusTitle">
+                        Waiting for sensor data
+                    </h2>
+
+                    <p id="environmentStatusDescription">
+                        The farm environment will be assessed when
+                        temperature and humidity readings are available.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="environment-reading-bar">
+
+                <div>
+                    <span>Temperature</span>
+                    <strong id="environmentTempSummary">—</strong>
+                </div>
+
+                <div>
+                    <span>Humidity</span>
+                    <strong id="environmentHumiditySummary">—</strong>
+                </div>
+
+                <div>
+                    <span>Risk State</span>
+                    <strong id="environmentRiskSummary">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card environment-actions-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">FARM CONDITIONS</span>
+                    <h3>Operational Checks</h3>
+                </div>
+
+                <i class="bi bi-building"></i>
+            </div>
+
+
+            <div class="environment-check-list">
+
+                <div class="environment-check">
+                    <div class="environment-check-icon">
+                        <i class="bi bi-fan"></i>
+                    </div>
+
+                    <div>
+                        <strong>Ventilation</strong>
+                        <p id="environmentVentilation">
+                            Manual verification required
+                        </p>
+                    </div>
+
+                    <span class="environment-state manual">
+                        MANUAL
+                    </span>
+                </div>
+
+
+                <div class="environment-check">
+                    <div class="environment-check-icon">
+                        <i class="bi bi-moisture"></i>
+                    </div>
+
+                    <div>
+                        <strong>Moisture Control</strong>
+                        <p id="environmentMoisture">
+                            Monitor bedding and wet areas
+                        </p>
+                    </div>
+
+                    <span class="environment-state manual">
+                        MANUAL
+                    </span>
+                </div>
+
+
+                <div class="environment-check">
+                    <div class="environment-check-icon">
+                        <i class="bi bi-wind"></i>
+                    </div>
+
+                    <div>
+                        <strong>Air Movement</strong>
+                        <p id="environmentAirMovement">
+                            No dedicated airflow sensor integrated
+                        </p>
+                    </div>
+
+                    <span class="environment-state unavailable">
+                        NOT INTEGRATED
+                    </span>
+                </div>
+
+
+                <div class="environment-check">
+                    <div class="environment-check-icon">
+                        <i class="bi bi-sun"></i>
+                    </div>
+
+                    <div>
+                        <strong>Heat Load</strong>
+                        <p id="environmentHeatLoad">
+                            Evaluated from available temperature data
+                        </p>
+                    </div>
+
+                    <span class="environment-state live">
+                        LIVE
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Environmental guidance -->
+    <div class="card environment-guidance-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">RECOMMENDED RESPONSE</span>
+                <h3 id="environmentGuidanceTitle">
+                    Maintain routine environmental monitoring
+                </h3>
+            </div>
+
+            <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <p id="environmentGuidance">
+            Continue monitoring temperature and humidity. Investigate
+            ventilation, bedding moisture and shaded resting areas when
+            environmental conditions deteriorate.
+        </p>
+
+    </div>
+
+
+    <!-- Data-source notice -->
+    <div class="card environment-notice">
+
+        <div class="environment-notice-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+            <strong>Prototype environmental screening</strong>
+
+            <p>
+                Temperature and humidity are treated as farm-environment
+                indicators from the connected prototype sensor. The climate
+                status is an operational screening signal, not a veterinary
+                diagnosis or a validated heat-stress index. Ventilation,
+                airflow and moisture conditions require additional sensing or
+                manual farm inspection.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FEEDING & NUTRITION
+     ========================================================= -->
+<section class="page" id="page-nutrition">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">HEALTH DATA</span>
+            <h1>Feeding &amp; Nutrition</h1>
+            <p>Monitor feeding operations, water availability and nutrition-related risk signals.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="nutritionStatus">
+                <span class="status-dot"></span>
+                NUTRITION MONITORING
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Nutrition metrics -->
+    <div class="metric-grid nutrition-metrics-grid">
+
+        <div class="card metric-card nutrition-metric">
+            <div class="metric-icon feed">
+                <i class="bi bi-basket2-fill"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Feed Intake</span>
+                <strong id="feedIntake">Not Integrated</strong>
+                <small id="feedIntakeStatus">
+                    Feed-weight sensor required
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card nutrition-metric">
+            <div class="metric-icon water">
+                <i class="bi bi-droplet-fill"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Water Intake</span>
+                <strong id="waterIntake">Not Integrated</strong>
+                <small id="waterIntakeStatus">
+                    Water-flow monitoring required
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card nutrition-metric">
+            <div class="metric-icon deviation">
+                <i class="bi bi-graph-down-arrow"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Feeding Deviation</span>
+                <strong id="feedingDeviation">No Data</strong>
+                <small>
+                    Compared with feeding baseline
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card nutrition-metric">
+            <div class="metric-icon risk">
+                <i class="bi bi-shield-exclamation"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Nutrition Risk</span>
+                <strong id="nutritionRisk">Not Assessed</strong>
+                <small id="nutritionRiskDescription">
+                    Awaiting feeding data
+                </small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Nutrition overview -->
+    <div class="nutrition-main-grid">
+
+        <div class="card nutrition-status-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">NUTRITION INTELLIGENCE</span>
+                    <h3>Current Feeding Status</h3>
+                </div>
+
+                <i class="bi bi-clipboard2-data"></i>
+            </div>
+
+
+            <div class="nutrition-status-main">
+
+                <div class="nutrition-status-icon monitor"
+                     id="nutritionStatusIcon">
+                    <i class="bi bi-activity"></i>
+                </div>
+
+                <div>
+                    <span class="metric-label">Current Assessment</span>
+
+                    <h2 id="nutritionStatusTitle">
+                        Feeding data not connected
+                    </h2>
+
+                    <p id="nutritionStatusDescription">
+                        Connect feeding or water-monitoring hardware
+                        to calculate nutrition-related deviations.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="nutrition-summary-grid">
+
+                <div>
+                    <span>Feed</span>
+                    <strong id="nutritionFeedSummary">
+                        NOT AVAILABLE
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Water</span>
+                    <strong id="nutritionWaterSummary">
+                        NOT AVAILABLE
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Deviation</span>
+                    <strong id="nutritionDeviationSummary">
+                        NO DATA
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card nutrition-check-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">FARM OPERATIONS</span>
+                    <h3>Feeding Checks</h3>
+                </div>
+
+                <i class="bi bi-list-check"></i>
+            </div>
+
+
+            <div class="nutrition-check-list">
+
+                <div class="nutrition-check">
+                    <div class="nutrition-check-icon">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+
+                    <div>
+                        <strong>Feeding Schedule</strong>
+                        <p id="nutritionScheduleStatus">
+                            Verify planned feeding times manually
+                        </p>
+                    </div>
+
+                    <span class="nutrition-state manual">
+                        MANUAL
+                    </span>
+                </div>
+
+
+                <div class="nutrition-check">
+                    <div class="nutrition-check-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <div>
+                        <strong>Feed Availability</strong>
+                        <p id="nutritionFeedAvailability">
+                            Confirm adequate feed stock
+                        </p>
+                    </div>
+
+                    <span class="nutrition-state manual">
+                        MANUAL
+                    </span>
+                </div>
+
+
+                <div class="nutrition-check">
+                    <div class="nutrition-check-icon">
+                        <i class="bi bi-water"></i>
+                    </div>
+
+                    <div>
+                        <strong>Water Availability</strong>
+                        <p id="nutritionWaterAvailability">
+                            Confirm clean water access
+                        </p>
+                    </div>
+
+                    <span class="nutrition-state manual">
+                        MANUAL
+                    </span>
+                </div>
+
+
+                <div class="nutrition-check">
+                    <div class="nutrition-check-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+
+                    <div>
+                        <strong>Automated Intake Monitoring</strong>
+                        <p>
+                            No feed or water intake sensor is currently integrated.
+                        </p>
+                    </div>
+
+                    <span class="nutrition-state unavailable">
+                        NOT INTEGRATED
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Animal-level nutrition context -->
+    <div class="card nutrition-animal-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">ANIMAL CONTEXT</span>
+                <h3>Risk-Linked Nutrition Monitoring</h3>
+            </div>
+
+            <i class="bi bi-cow"></i>
+        </div>
+
+
+        <div class="nutrition-animal-grid">
+
+            <div class="nutrition-animal-profile">
+
+                <div class="nutrition-animal-avatar">
+                    <i class="bi bi-cow"></i>
+                </div>
+
+                <div>
+                    <span class="metric-label">Active Animal</span>
+                    <h3 id="nutritionAnimalName">—</h3>
+                    <p>
+                        Tag:
+                        <strong id="nutritionAnimalTag">—</strong>
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="nutrition-animal-value">
+                <span>Current Risk Score</span>
+                <strong id="nutritionAnimalRisk">—</strong>
+            </div>
+
+
+            <div class="nutrition-animal-value">
+                <span>Risk Level</span>
+                <strong id="nutritionAnimalRiskLevel">—</strong>
+            </div>
+
+        </div>
+
+
+        <div class="nutrition-risk-note"
+             id="nutritionRiskNote">
+            Nutrition monitoring becomes more useful when individual
+            feed intake, water intake and behavioral signals are available.
+        </div>
+
+    </div>
+
+
+    <!-- Recommended action -->
+    <div class="card nutrition-guidance-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">RECOMMENDED ACTION</span>
+                <h3 id="nutritionGuidanceTitle">
+                    Maintain routine feeding checks
+                </h3>
+            </div>
+
+            <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <p id="nutritionGuidance">
+            Maintain consistent feed timing, adequate feed availability
+            and reliable clean-water access. Investigate unexplained
+            feeding changes when automated intake monitoring becomes available.
+        </p>
+
+    </div>
+
+
+    <!-- Limitation -->
+    <div class="card nutrition-notice">
+
+        <div class="nutrition-notice-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+            <strong>Prototype nutrition-monitoring limitation</strong>
+
+            <p>
+                Feed intake, water intake and feeding deviation are not
+                directly measured by the current ESP32 prototype. This
+                module therefore displays operational checks and
+                risk-linked context rather than inventing intake values.
+                Dedicated load cells, flow meters or behavioral sensors
+                can be integrated later.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+          
+<!-- =========================================================
+     HOUSING & HYGIENE
+     ========================================================= -->
+<section class="page" id="page-hygiene">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">FARM OPERATIONS</span>
+            <h1>Housing &amp; Hygiene</h1>
+            <p>Monitor housing conditions, bedding hygiene and farm biosecurity practices.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="hygieneStatus">
+                <span class="status-dot"></span>
+                HYGIENE MONITORING
+            </span>
+        </div>
+    </div>
+
+
+    <!-- Overview metrics -->
+    <div class="metric-grid hygiene-metrics-grid">
+
+        <div class="card metric-card hygiene-metric">
+            <div class="metric-icon housing">
+                <i class="bi bi-house-heart-fill"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Housing Status</span>
+                <strong id="housingStatus">MANUAL</strong>
+                <small id="housingStatusDetail">
+                    Visual inspection required
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card hygiene-metric">
+            <div class="metric-icon bedding">
+                <i class="bi bi-layers-fill"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Bedding Condition</span>
+                <strong id="beddingStatus">MANUAL</strong>
+                <small id="beddingStatusDetail">
+                    Moisture and cleanliness check
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card hygiene-metric">
+            <div class="metric-icon milking">
+                <i class="bi bi-droplet-half"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Milking Hygiene</span>
+                <strong id="milkingHygieneStatus">MANUAL</strong>
+                <small>
+                    Procedure compliance required
+                </small>
+            </div>
+        </div>
+
+
+        <div class="card metric-card hygiene-metric">
+            <div class="metric-icon biosecurity">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div>
+                <span class="metric-label">Biosecurity</span>
+                <strong id="biosecurityStatus">MANUAL</strong>
+                <small>
+                    Farm protocol verification
+                </small>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Hygiene intelligence -->
+    <div class="hygiene-main-grid">
+
+        <div class="card hygiene-overview-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">HYGIENE INTELLIGENCE</span>
+                    <h3>Current Farm Condition</h3>
+                </div>
+
+                <i class="bi bi-shield-plus"></i>
+            </div>
+
+
+            <div class="hygiene-status-main">
+
+                <div class="hygiene-status-icon monitor"
+                     id="hygieneStatusIcon">
+                    <i class="bi bi-clipboard-check"></i>
+                </div>
+
+                <div>
+                    <span class="metric-label">Current Assessment</span>
+
+                    <h2 id="hygieneStatusTitle">
+                        MANUAL INSPECTION REQUIRED
+                    </h2>
+
+                    <p id="hygieneStatusDescription">
+                        Housing and hygiene conditions are primarily
+                        operational checks in the current prototype.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="hygiene-summary-grid">
+
+                <div>
+                    <span>Housing</span>
+                    <strong id="hygieneHousingSummary">
+                        MANUAL
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Bedding</span>
+                    <strong id="hygieneBeddingSummary">
+                        MANUAL
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Biosecurity</span>
+                    <strong id="hygieneBiosecuritySummary">
+                        MANUAL
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card hygiene-check-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">DAILY CHECKLIST</span>
+                    <h3>Farm Hygiene Controls</h3>
+                </div>
+
+                <i class="bi bi-list-check"></i>
+            </div>
+
+
+            <div class="hygiene-check-list">
+
+                <div class="hygiene-check">
+
+                    <div class="hygiene-check-icon">
+                        <i class="bi bi-water"></i>
+                    </div>
+
+                    <div>
+                        <strong>Clean Water Points</strong>
+                        <p id="cleanWaterCheck">
+                            Verify water troughs are clean
+                        </p>
+                    </div>
+
+                    <span class="hygiene-state manual">
+                        MANUAL
+                    </span>
+
+                </div>
+
+
+                <div class="hygiene-check">
+
+                    <div class="hygiene-check-icon">
+                        <i class="bi bi-brush"></i>
+                    </div>
+
+                    <div>
+                        <strong>Bedding Cleanliness</strong>
+                        <p id="beddingCheck">
+                            Inspect for wet or contaminated bedding
+                        </p>
+                    </div>
+
+                    <span class="hygiene-state manual">
+                        MANUAL
+                    </span>
+
+                </div>
+
+
+                <div class="hygiene-check">
+
+                    <div class="hygiene-check-icon">
+                        <i class="bi bi-droplet"></i>
+                    </div>
+
+                    <div>
+                        <strong>Milking Equipment</strong>
+                        <p id="equipmentCheck">
+                            Confirm cleaning and sanitization routine
+                        </p>
+                    </div>
+
+                    <span class="hygiene-state manual">
+                        MANUAL
+                    </span>
+
+                </div>
+
+
+                <div class="hygiene-check">
+
+                    <div class="hygiene-check-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+
+                    <div>
+                        <strong>Worker Hygiene</strong>
+                        <p id="workerHygieneCheck">
+                            Hand and protective-equipment procedures
+                        </p>
+                    </div>
+
+                    <span class="hygiene-state manual">
+                        MANUAL
+                    </span>
+
+                </div>
+
+
+                <div class="hygiene-check">
+
+                    <div class="hygiene-check-icon">
+                        <i class="bi bi-shield-lock"></i>
+                    </div>
+
+                    <div>
+                        <strong>Animal Isolation</strong>
+                        <p id="isolationCheck">
+                            Isolate high-risk or clinically affected animals when required
+                        </p>
+                    </div>
+
+                    <span class="hygiene-state manual">
+                        MANUAL
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Housing zones -->
+    <div class="card hygiene-zones-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">HOUSING ZONES</span>
+                <h3>Condition Monitoring</h3>
+            </div>
+
+            <i class="bi bi-grid-3x3-gap"></i>
+        </div>
+
+
+        <div class="hygiene-zone-grid">
+
+            <div class="hygiene-zone">
+
+                <div class="hygiene-zone-header">
+                    <div class="hygiene-zone-icon">
+                        <i class="bi bi-house-door"></i>
+                    </div>
+
+                    <span class="hygiene-zone-state">
+                        MANUAL
+                    </span>
+                </div>
+
+                <h4>Animal Housing</h4>
+
+                <p>
+                    Check floor cleanliness, drainage, shade and
+                    resting-area condition.
+                </p>
+
+            </div>
+
+
+            <div class="hygiene-zone">
+
+                <div class="hygiene-zone-header">
+                    <div class="hygiene-zone-icon">
+                        <i class="bi bi-droplet"></i>
+                    </div>
+
+                    <span class="hygiene-zone-state">
+                        MANUAL
+                    </span>
+                </div>
+
+                <h4>Milking Area</h4>
+
+                <p>
+                    Check teat preparation, equipment sanitation and
+                    cleanliness of the milking environment.
+                </p>
+
+            </div>
+
+
+            <div class="hygiene-zone">
+
+                <div class="hygiene-zone-header">
+                    <div class="hygiene-zone-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+
+                    <span class="hygiene-zone-state">
+                        MANUAL
+                    </span>
+                </div>
+
+                <h4>Feed Storage</h4>
+
+                <p>
+                    Check feed protection, contamination, pests and
+                    storage dryness.
+                </p>
+
+            </div>
+
+
+            <div class="hygiene-zone">
+
+                <div class="hygiene-zone-header">
+                    <div class="hygiene-zone-icon">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                    <span class="hygiene-zone-state">
+                        MANUAL
+                    </span>
+                </div>
+
+                <h4>Biosecurity Point</h4>
+
+                <p>
+                    Verify entry control, footwear hygiene and
+                    visitor procedures.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Risk-linked hygiene action -->
+    <div class="card hygiene-guidance-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">RISK-LINKED ACTION</span>
+                <h3 id="hygieneGuidanceTitle">
+                    Maintain routine hygiene controls
+                </h3>
+            </div>
+
+            <i class="bi bi-lightbulb"></i>
+        </div>
+
+        <p id="hygieneGuidance">
+            Maintain clean housing, dry bedding, clean water points
+            and consistent milking hygiene procedures.
+        </p>
+
+    </div>
+
+
+    <!-- Notice -->
+    <div class="card hygiene-notice">
+
+        <div class="hygiene-notice-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+            <strong>Operational monitoring limitation</strong>
+
+            <p>
+                The current prototype does not contain dedicated bedding
+                moisture, microbial-load, airflow or automated hygiene
+                sensors. These fields are therefore intentionally shown
+                as manual farm checks rather than fabricated live values.
+                Future sensor integration can convert these checks into
+                automated monitoring.
+            </p>
+        </div>
+
+    </div>
+
+
+</section>
+
+
+
+
+<!-- =========================================================
+     MILKING OPERATIONS
+     ========================================================= -->
+<section class="page" id="page-milking">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">FARM OPERATIONS</span>
+            <h1>Milking Operations</h1>
+            <p>Monitor milking schedules, workflow readiness and risk-linked procedures.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="milkingPageStatus">
+                <span class="status-dot"></span>
+                MILKING MONITORING
+            </span>
+        </div>
+    </div>
+
+    <div class="milking-schedule-grid">
+
+        <div class="card milking-next-card">
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">NEXT SESSION</span>
+                    <h3>Milking Schedule</h3>
+                </div>
+                <i class="bi bi-clock-history"></i>
+            </div>
+
+            <div class="next-milking-time" id="nextMilkingTime">05:30</div>
+            <div class="next-milking-label" id="nextMilkingLabel">
+                Scheduled milking session
+            </div>
+
+            <div class="milking-session-meta">
+                <span id="nextMilkingCountdown">Schedule based</span>
+                <span id="nextMilkingState">PLANNED</span>
+            </div>
+        </div>
+
+        <div class="card milking-session-card">
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">DAILY ROUTINE</span>
+                    <h3>Session Schedule</h3>
+                </div>
+                <i class="bi bi-calendar3"></i>
+            </div>
+
+            <div class="milking-time-list">
+
+                <div class="milking-time-row">
+                    <span class="milking-time">05:30</span>
+                    <strong>Morning Milking</strong>
+                    <span class="milking-state planned">PLANNED</span>
+                </div>
+
+                <div class="milking-time-row">
+                    <span class="milking-time">13:30</span>
+                    <strong>Afternoon Milking</strong>
+                    <span class="milking-state planned">PLANNED</span>
+                </div>
+
+                <div class="milking-time-row">
+                    <span class="milking-time">21:00</span>
+                    <strong>Evening Milking</strong>
+                    <span class="milking-state planned">PLANNED</span>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card milking-workflow-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">WORKFLOW CONTROL</span>
+                <h3>Milking Hygiene Workflow</h3>
+            </div>
+            <i class="bi bi-list-check"></i>
+        </div>
+
+        <div class="milking-workflow-grid">
+
+            <div class="milking-step">
+                <div class="milking-step-number">01</div>
+                <div>
+                    <strong>Pre-Milking Check</strong>
+                    <p>Animal identification and visible udder/teat inspection.</p>
+                </div>
+                <span class="milking-step-state">MANUAL</span>
+            </div>
+
+            <div class="milking-step">
+                <div class="milking-step-number">02</div>
+                <div>
+                    <strong>Teat Preparation</strong>
+                    <p>Clean and prepare teats before attaching equipment.</p>
+                </div>
+                <span class="milking-step-state">MANUAL</span>
+            </div>
+
+            <div class="milking-step">
+                <div class="milking-step-number">03</div>
+                <div>
+                    <strong>Milking Equipment</strong>
+                    <p>Confirm equipment is clean, functional and sanitized.</p>
+                </div>
+                <span class="milking-step-state">MANUAL</span>
+            </div>
+
+            <div class="milking-step">
+                <div class="milking-step-number">04</div>
+                <div>
+                    <strong>Post-Milking Care</strong>
+                    <p>Complete post-milking teat care and animal observation.</p>
+                </div>
+                <span class="milking-step-state">MANUAL</span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="milking-risk-grid">
+
+        <div class="card milking-risk-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">RISK CONTEXT</span>
+                    <h3>Current Herd Milking Priority</h3>
+                </div>
+                <i class="bi bi-shield-exclamation"></i>
+            </div>
+
+            <div class="milking-risk-main">
+                <div class="milking-risk-score" id="milkingRiskScore">—</div>
+
+                <div>
+                    <span class="metric-label">High-Risk Animals</span>
+                    <strong id="milkingHighRiskAnimals">0</strong>
+                    <p id="milkingRiskMessage">
+                        No current herd risk summary available.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="card milking-data-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">AUTOMATION</span>
+                    <h3>Milking Data</h3>
+                </div>
+                <i class="bi bi-cpu"></i>
+            </div>
+
+            <div class="milking-data-list">
+                <div>
+                    <span>Automatic Yield</span>
+                    <strong>NOT INTEGRATED</strong>
+                </div>
+
+                <div>
+                    <span>Milking Duration</span>
+                    <strong>NOT INTEGRATED</strong>
+                </div>
+
+                <div>
+                    <span>Equipment State</span>
+                    <strong>MANUAL</strong>
+                </div>
+
+                <div>
+                    <span>Session Logging</span>
+                    <strong>PLANNED</strong>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card milking-notice">
+        <div class="milking-notice-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+        <div>
+            <strong>Prototype milking-operation module</strong>
+            <p>
+                The current prototype provides scheduling and risk-linked workflow
+                support. Automatic milk yield, milking duration and equipment telemetry
+                require dedicated hardware or integration with milking-system data.
+            </p>
+        </div>
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     HEALTH RECORDS
+     ========================================================= -->
+<section class="page" id="page-records">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">FARM OPERATIONS</span>
+            <h1>Health Records</h1>
+            <p>Animal history, treatments and health-event record management.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill">
+                <span class="status-dot"></span>
+                RECORD SYSTEM
+            </span>
+        </div>
+    </div>
+
+    <div class="records-summary-grid">
+
+        <div class="card record-summary">
+            <span class="metric-label">Animal Records</span>
+            <strong id="recordAnimalCount">0</strong>
+            <small>Animals in current dataset</small>
+        </div>
+
+        <div class="card record-summary">
+            <span class="metric-label">High-Risk Records</span>
+            <strong id="recordHighRisk">0</strong>
+            <small>Require review</small>
+        </div>
+
+        <div class="card record-summary">
+            <span class="metric-label">Health History</span>
+            <strong id="recordHistoryState">PARTIAL</strong>
+            <small>Depends on backend fields</small>
+        </div>
+
+        <div class="card record-summary">
+            <span class="metric-label">Database State</span>
+            <strong id="recordDatabaseState">CONNECTED</strong>
+            <small>Dashboard data source</small>
+        </div>
+
+    </div>
+
+    <div class="card records-table-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">ANIMAL HEALTH REGISTER</span>
+                <h3>Current Records</h3>
+            </div>
+
+            <button class="btn-secondary" id="refreshRecordsBtn">
+                <i class="bi bi-arrow-clockwise"></i>
+                Refresh
+            </button>
+        </div>
+
+        <div class="records-table-wrap">
+            <table class="records-table">
+                <thead>
+                    <tr>
+                        <th>Animal</th>
+                        <th>Risk</th>
+                        <th>Latest Reading</th>
+                        <th>Previous Mastitis</th>
+                        <th>Treatment</th>
+                        <th>Record State</th>
+                    </tr>
+                </thead>
+
+                <tbody id="recordsTableBody">
+                    <tr>
+                        <td colspan="6" class="records-empty">
+                            Waiting for animal data...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ALERT CENTER
+     ========================================================= -->
+<section class="page" id="page-alerts">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">INTELLIGENCE</span>
+            <h1>Alert Center</h1>
+            <p>Prioritized early-warning signals from the farm monitoring system.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill alert-live-status">
+                <span class="status-dot"></span>
+                LIVE ALERTS
+            </span>
+        </div>
+    </div>
+
+    <div class="alert-summary-grid">
+
+        <div class="card alert-summary priority">
+            <span class="metric-label">Priority</span>
+            <strong id="alertPriorityCount">0</strong>
+            <small>Immediate review</small>
+        </div>
+
+        <div class="card alert-summary warning">
+            <span class="metric-label">Warnings</span>
+            <strong id="alertWarningCount">0</strong>
+            <small>Enhanced monitoring</small>
+        </div>
+
+        <div class="card alert-summary monitor">
+            <span class="metric-label">Monitoring</span>
+            <strong id="alertMonitorCount">0</strong>
+            <small>Routine follow-up</small>
+        </div>
+
+        <div class="card alert-summary total">
+            <span class="metric-label">Total Alerts</span>
+            <strong id="alertTotalCount">0</strong>
+            <small>Current alert feed</small>
+        </div>
+
+    </div>
+
+    <div class="card alert-center-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">EARLY WARNING SYSTEM</span>
+                <h3>Active Alerts</h3>
+            </div>
+
+            <button class="btn-secondary" id="refreshAlertsBtn">
+                <i class="bi bi-arrow-clockwise"></i>
+                Refresh
+            </button>
+        </div>
+
+        <div id="fullAlerts" class="full-alerts"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     RECOMMENDATIONS
+     ========================================================= -->
+<section class="page" id="page-recommendations">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">INTELLIGENCE</span>
+            <h1>Recommendations</h1>
+            <p>Risk-linked actions generated from current dashboard evidence.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="recommendationStatus">
+                <span class="status-dot"></span>
+                AI DECISION SUPPORT
+            </span>
+        </div>
+    </div>
+
+    <div class="stats-row recommendation-stats">
+
+        <div class="card stat-card">
+            <span class="metric-label">Recommendations</span>
+            <strong id="recommendationTotal">0</strong>
+            <small>Current actions</small>
+        </div>
+
+        <div class="card stat-card">
+            <span class="metric-label">Priority Actions</span>
+            <strong id="recommendationPriority">0</strong>
+            <small>Highest attention</small>
+        </div>
+
+        <div class="card stat-card">
+            <span class="metric-label">Risk Actions</span>
+            <strong id="recommendationRisk">0</strong>
+            <small>Risk-linked</small>
+        </div>
+
+        <div class="card stat-card">
+            <span class="metric-label">Animals Affected</span>
+            <strong id="recommendationAnimals">0</strong>
+            <small>Current scope</small>
+        </div>
+
+    </div>
+
+    <div id="recommendationGrid" class="recommendation-grid"></div>
+
+    <div class="card recommendation-explanation">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">DECISION LOGIC</span>
+                <h3>How Recommendations Are Generated</h3>
+            </div>
+            <i class="bi bi-diagram-3"></i>
+        </div>
+
+        <div class="recommendation-logic">
+            <div>
+                <span>01</span>
+                <p>Current herd and animal risk scores are evaluated.</p>
+            </div>
+
+            <div>
+                <span>02</span>
+                <p>Available milk and sensor indicators are reviewed.</p>
+            </div>
+
+            <div>
+                <span>03</span>
+                <p>The dashboard prioritizes inspection and monitoring actions.</p>
+            </div>
+
+            <div>
+                <span>04</span>
+                <p>Recommendations are decision-support signals, not diagnoses.</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     GIS & HOTSPOTS
+     ========================================================= -->
+<section class="page" id="page-gis">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">INTELLIGENCE</span>
+            <h1>GIS &amp; Hotspots</h1>
+            <p>Map-based visualization of animal locations and herd risk concentration.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill">
+                <span class="status-dot"></span>
+                FARM MAP
+            </span>
+        </div>
+    </div>
+
+    <div class="gis-summary-grid">
+
+        <div class="card gis-summary">
+            <span class="metric-label">Animals Mapped</span>
+            <strong id="gisMappedAnimals">0</strong>
+            <small>Available location points</small>
+        </div>
+
+        <div class="card gis-summary high">
+            <span class="metric-label">High-Risk Hotspots</span>
+            <strong id="gisHighHotspots">0</strong>
+            <small>Risk concentration</small>
+        </div>
+
+        <div class="card gis-summary">
+            <span class="metric-label">Average Risk</span>
+            <strong id="gisAverageRisk">—</strong>
+            <small>Mapped animal population</small>
+        </div>
+
+        <div class="card gis-summary">
+            <span class="metric-label">Map State</span>
+            <strong id="gisMapState">READY</strong>
+            <small>Interactive farm map</small>
+        </div>
+
+    </div>
+
+    <div class="card gis-map-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">RISK DISTRIBUTION</span>
+                <h3>Animal Risk Map</h3>
+            </div>
+
+            <div class="gis-legend">
+                <span><i class="gis-dot stable"></i>Stable</span>
+                <span><i class="gis-dot monitor"></i>Moderate</span>
+                <span><i class="gis-dot priority"></i>High</span>
+            </div>
+        </div>
+
+        <div id="farmMap" class="farm-map"></div>
+
+    </div>
+
+    <div class="card hotspot-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">HOTSPOT ANALYSIS</span>
+                <h3>Highest-Risk Locations</h3>
+            </div>
+            <i class="bi bi-geo-alt"></i>
+        </div>
+
+        <div id="hotspotList" class="hotspot-list">
+            <div class="hotspot-empty">
+                Waiting for location data...
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     AI MODEL
+     ========================================================= -->
+<section class="page" id="page-ai">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">INTELLIGENCE</span>
+            <h1>AI Model</h1>
+            <p>Model status, feature influence and prototype decision-support information.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill" id="aiModelStatus">
+                <span class="status-dot"></span>
+                MODEL ONLINE
+            </span>
+        </div>
+    </div>
+
+    <div class="ai-model-summary-grid">
+
+        <div class="card ai-model-summary">
+            <span class="metric-label">Model State</span>
+            <strong id="aiState">ONLINE</strong>
+            <small>Runtime prediction service</small>
+        </div>
+
+        <div class="card ai-model-summary">
+            <span class="metric-label">Input Signals</span>
+            <strong id="aiInputCount">4</strong>
+            <small>Current prototype feature set</small>
+        </div>
+
+        <div class="card ai-model-summary">
+            <span class="metric-label">Output</span>
+            <strong>RISK SCORE</strong>
+            <small>0–100 screening scale</small>
+        </div>
+
+        <div class="card ai-model-summary">
+            <span class="metric-label">Backend</span>
+            <strong id="aiBackendState">FLASK API</strong>
+            <small>Connected service</small>
+        </div>
+
+    </div>
+
+    <div class="ai-main-grid">
+
+        <div class="card ai-features-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">FEATURE SIGNALS</span>
+                    <h3>Current Input Features</h3>
+                </div>
+
+                <i class="bi bi-cpu-fill"></i>
+            </div>
+
+            <div class="ai-feature-list">
+
+                <div class="ai-feature-row">
+                    <div class="ai-feature-label">
+                        <span>Milk EC</span>
+                        <strong id="aiFeatureECValue">—</strong>
+                    </div>
+                    <div class="ai-feature-bar">
+                        <span id="aiFeatureECBar" style="width: 25%;"></span>
+                    </div>
+                </div>
+
+                <div class="ai-feature-row">
+                    <div class="ai-feature-label">
+                        <span>Milk pH</span>
+                        <strong id="aiFeaturePHValue">—</strong>
+                    </div>
+                    <div class="ai-feature-bar">
+                        <span id="aiFeaturePHBar" style="width: 25%;"></span>
+                    </div>
+                </div>
+
+                <div class="ai-feature-row">
+                    <div class="ai-feature-label">
+                        <span>SCC</span>
+                        <strong id="aiFeatureSCCValue">—</strong>
+                    </div>
+                    <div class="ai-feature-bar">
+                        <span id="aiFeatureSCCBar" style="width: 25%;"></span>
+                    </div>
+                </div>
+
+                <div class="ai-feature-row">
+                    <div class="ai-feature-label">
+                        <span>Temperature</span>
+                        <strong id="aiFeatureTempValue">—</strong>
+                    </div>
+                    <div class="ai-feature-bar">
+                        <span id="aiFeatureTempBar" style="width: 25%;"></span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card ai-explanation-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">MODEL EXPLANATION</span>
+                    <h3>Current Decision</h3>
+                </div>
+
+                <i class="bi bi-graph-up-arrow"></i>
+            </div>
+
+            <div class="ai-decision-score">
+                <span class="metric-label">Active Animal Risk</span>
+                <strong id="aiRiskScore">—</strong>
+            </div>
+
+            <div class="ai-decision-state" id="aiDecisionState">
+                Waiting for animal data.
+            </div>
+
+            <div class="ai-model-note">
+                The feature bars are a visual representation of current
+                sensor values for dashboard interpretation. They are not
+                a calibrated explanation of model feature importance.
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card ai-pipeline-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">AI PIPELINE</span>
+                <h3>Prediction Flow</h3>
+            </div>
+            <i class="bi bi-diagram-3-fill"></i>
+        </div>
+
+        <div class="ai-pipeline">
+
+            <div class="ai-pipeline-step">
+                <span>01</span>
+                <strong>Sensor Input</strong>
+                <small>ESP32 readings</small>
+            </div>
+
+            <div class="ai-pipeline-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <div class="ai-pipeline-step">
+                <span>02</span>
+                <strong>Feature Processing</strong>
+                <small>EC / pH / SCC / temperature</small>
+            </div>
+
+            <div class="ai-pipeline-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <div class="ai-pipeline-step">
+                <span>03</span>
+                <strong>AI Inference</strong>
+                <small>Risk prediction</small>
+            </div>
+
+            <div class="ai-pipeline-arrow">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <div class="ai-pipeline-step">
+                <span>04</span>
+                <strong>Decision Support</strong>
+                <small>Alerts &amp; recommendations</small>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card ai-notice">
+
+        <div class="ai-notice-icon">
+            <i class="bi bi-info-circle-fill"></i>
+        </div>
+
+        <div>
+            <strong>AI interpretation note</strong>
+            <p>
+                The dashboard risk score is a prototype decision-support
+                output. It should be validated against laboratory and
+                veterinary observations before being used for clinical decisions.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     REPORTS
+     ========================================================= -->
+<section class="page" id="page-reports">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">SYSTEM</span>
+            <h1>Reports</h1>
+            <p>Generate management summaries from current dashboard data.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill">
+                <span class="status-dot"></span>
+                REPORT CENTER
+            </span>
+        </div>
+    </div>
+
+    <div class="report-summary-grid">
+
+        <div class="card report-summary">
+            <span class="metric-label">Animals</span>
+            <strong id="reportAnimals">0</strong>
+            <small>Current dataset</small>
+        </div>
+
+        <div class="card report-summary">
+            <span class="metric-label">High Risk</span>
+            <strong id="reportHighRisk">0</strong>
+            <small>Priority population</small>
+        </div>
+
+        <div class="card report-summary">
+            <span class="metric-label">Alerts</span>
+            <strong id="reportAlerts">0</strong>
+            <small>Active signals</small>
+        </div>
+
+        <div class="card report-summary">
+            <span class="metric-label">Generated</span>
+            <strong id="reportGenerated">—</strong>
+            <small>Last report time</small>
+        </div>
+
+    </div>
+
+    <div class="report-grid">
+
+        <div class="card report-card">
+
+            <div class="report-icon">
+                <i class="bi bi-clipboard2-data"></i>
+            </div>
+
+            <span class="eyebrow">HERD</span>
+            <h3>Herd Risk Summary</h3>
+
+            <p>
+                Current animal population, risk distribution and
+                priority animals.
+            </p>
+
+            <button class="btn-primary report-action"
+                    data-report="herd">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Summary
+            </button>
+
+        </div>
+
+
+        <div class="card report-card">
+
+            <div class="report-icon">
+                <i class="bi bi-droplet-half"></i>
+            </div>
+
+            <span class="eyebrow">MILK</span>
+            <h3>Milk Intelligence Report</h3>
+
+            <p>
+                Current milk indicators, screening status and
+                active-animal context.
+            </p>
+
+            <button class="btn-primary report-action"
+                    data-report="milk">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Summary
+            </button>
+
+        </div>
+
+
+        <div class="card report-card">
+
+            <div class="report-icon">
+                <i class="bi bi-bell"></i>
+            </div>
+
+            <span class="eyebrow">ALERTS</span>
+            <h3>Alert Report</h3>
+
+            <p>
+                Current early-warning signals and recommended
+                follow-up actions.
+            </p>
+
+            <button class="btn-primary report-action"
+                    data-report="alerts">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Summary
+            </button>
+
+        </div>
+
+
+        <div class="card report-card">
+
+            <div class="report-icon">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <span class="eyebrow">OPERATIONS</span>
+            <h3>Farm Operations Report</h3>
+
+            <p>
+                Milking, nutrition, housing and hygiene monitoring
+                status.
+            </p>
+
+            <button class="btn-primary report-action"
+                    data-report="operations">
+                <i class="bi bi-file-earmark-text"></i>
+                Generate Summary
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="card report-output-card">
+
+        <div class="card-header">
+            <div>
+                <span class="eyebrow">REPORT OUTPUT</span>
+                <h3>Generated Report</h3>
+            </div>
+
+            <button class="btn-secondary" id="copyReportBtn">
+                <i class="bi bi-copy"></i>
+                Copy
+            </button>
+        </div>
+
+        <pre id="reportOutput">Select a report above to generate a management summary.</pre>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SETTINGS
+     ========================================================= -->
+<section class="page" id="page-settings">
+
+    <div class="page-heading">
+        <div>
+            <span class="eyebrow">SYSTEM</span>
+            <h1>Settings</h1>
+            <p>Dashboard configuration, gateway status and risk-system parameters.</p>
+        </div>
+
+        <div class="page-heading-status">
+            <span class="status-pill">
+                <span class="status-dot"></span>
+                SYSTEM CONFIG
+            </span>
+        </div>
+    </div>
+
+    <div class="settings-grid">
+
+        <div class="card settings-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">CONNECTIVITY</span>
+                    <h3>ESP32 Gateway</h3>
+                </div>
+                <i class="bi bi-broadcast-pin"></i>
+            </div>
+
+            <div class="settings-list">
+
+                <div>
+                    <span>Gateway State</span>
+                    <strong id="settingsGatewayState">CHECKING</strong>
+                </div>
+
+                <div>
+                    <span>API Endpoint</span>
+                    <strong>/api/dashboard</strong>
+                </div>
+
+                <div>
+                    <span>Refresh Interval</span>
+                    <strong>5 seconds</strong>
+                </div>
+
+                <div>
+                    <span>Transport</span>
+                    <strong>HTTP / Flask</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card settings-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">RISK ENGINE</span>
+                    <h3>Risk Categories</h3>
+                </div>
+                <i class="bi bi-speedometer2"></i>
+            </div>
+
+            <div class="risk-threshold-list">
+
+                <div>
+                    <span class="settings-risk-dot no-risk"></span>
+                    <strong>No Risk</strong>
+                    <b>0–24</b>
+                </div>
+
+                <div>
+                    <span class="settings-risk-dot low-risk"></span>
+                    <strong>Low Risk</strong>
+                    <b>25–44</b>
+                </div>
+
+                <div>
+                    <span class="settings-risk-dot moderate-risk"></span>
+                    <strong>Moderate</strong>
+                    <b>45–69</b>
+                </div>
+
+                <div>
+                    <span class="settings-risk-dot high-risk"></span>
+                    <strong>High</strong>
+                    <b>70–100</b>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="card settings-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">NOTIFICATIONS</span>
+                    <h3>Alert Preferences</h3>
+                </div>
+                <i class="bi bi-bell"></i>
+            </div>
+
+            <div class="settings-toggle-list">
+
+                <label class="settings-toggle-row">
+                    <span>
+                        <strong>High-risk alerts</strong>
+                        <small>Show priority animal warnings</small>
+                    </span>
+                    <input type="checkbox" id="settingHighRisk" checked>
+                </label>
+
+                <label class="settings-toggle-row">
+                    <span>
+                        <strong>Moderate-risk alerts</strong>
+                        <small>Show enhanced-monitoring signals</small>
+                    </span>
+                    <input type="checkbox" id="settingModerateRisk" checked>
+                </label>
+
+                <label class="settings-toggle-row">
+                    <span>
+                        <strong>Recommendations</strong>
+                        <small>Enable dashboard action guidance</small>
+                    </span>
+                    <input type="checkbox" id="settingRecommendations" checked>
+                </label>
+
+            </div>
+
+        </div>
+
+
+        <div class="card settings-card">
+
+            <div class="card-header">
+                <div>
+                    <span class="eyebrow">SYSTEM INFO</span>
+                    <h3>Platform</h3>
+                </div>
+                <i class="bi bi-info-circle"></i>
+            </div>
+
+            <div class="settings-list">
+
+                <div>
+                    <span>Application</span>
+                    <strong>Mastiguard-AI</strong>
+                </div>
+
+                <div>
+                    <span>Backend</span>
+                    <strong>Flask API</strong>
+                </div>
+
+                <div>
+                    <span>Frontend</span>
+                    <strong>HTML / CSS / JS</strong>
+                </div>
+
+                <div>
+                    <span>Map Engine</span>
+                    <strong>Leaflet</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card settings-notice">
+
+        <div class="settings-notice-icon">
+            <i class="bi bi-shield-check"></i>
+        </div>
+
+        <div>
+            <strong>Prototype configuration</strong>
+            <p>
+                Risk ranges and dashboard behaviors are application
+                configuration values. They should be validated and
+                adjusted with project-specific clinical, laboratory
+                and farm data before real-world deployment.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+<!-- ==========================================================
+     DASHBOARD JAVASCRIPT
+=========================================================== -->
+
+<script
+    src="{{ url_for('static', filename='js/dashboard.js') }}"
+></script>
+
+
+</body>
+
+</html>
+
