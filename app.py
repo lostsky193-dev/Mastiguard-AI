@@ -76,6 +76,28 @@ logging.basicConfig(
 
 logger = logging.getLogger("mastiguard")
 
+# ============================================================
+# GLOBAL ERROR HANDLER
+# ============================================================
+
+@app.errorhandler(Exception)
+def handle_exception(error):
+
+    logger.exception(
+        "MASTIGUARD UNHANDLED ERROR"
+    )
+
+    try:
+        db.session.rollback()
+    except Exception:
+        pass
+
+    return jsonify({
+        "status": "error",
+        "message": str(error),
+        "error_type": type(error).__name__
+    }), 500
+
 
 # ============================================================
 # RISK CALCULATION
@@ -494,34 +516,562 @@ def health():
 # ESP32 INGESTION API
 # ============================================================
 
+# ============================================================
+# ESP32 INGESTION API
+# ============================================================
+
 @app.route(
     "/api/esp32/data",
     methods=["POST"]
 )
 def esp32_data():
 
-    data = request.get_json(
-        silent=True
-    )
+    try:
 
-    if not data:
+        # ----------------------------------------------------
+        # READ JSON
+        # ----------------------------------------------------
+
+        data = request.get_json(
+            silent=True
+        )
+
+        if not isinstance(data, dict):
+
+            return jsonify({
+
+                "status": "error",
+
+                "message":
+                    "Valid JSON object required"
+
+            }), 400
+
+
+        # ----------------------------------------------------
+        # ANIMAL
+        # ----------------------------------------------------
+
+        tag_id = str(
+            data.get(
+                "tag_id",
+                "COW-001"
+            )
+        ).strip()
+
+
+        if not tag_id:
+
+            return jsonify({
+
+                "status": "error",
+
+                "message":
+                    "tag_id is required"
+
+            }), 400
+
+
+        # ----------------------------------------------------
+        # SENSOR VALUES
+        # ----------------------------------------------------
+
+        try:
+
+            temperature = float(
+                data["temperature"]
+            )
+
+            ec = float(
+                data["ec"]
+            )
+
+            ph = float(
+                data["ph"]
+            )
+
+            scc = float(
+                data["scc"]
+            )
+
+        except (
+            KeyError,
+            TypeError,
+            ValueError
+        ):
+
+            return jsonify({
+
+                "status": "error",
+
+                "message": (
+                    "temperature, ec, ph and scc "
+                    "must be valid numbers"
+                )
+
+            }), 400
+
+
+        # ----------------------------------------------------
+        # VALIDATE NUMBERS
+        # ----------------------------------------------------
+
+        import math
+
+        values = {
+            "temperature": temperature,
+            "ec": ec,
+            "ph": ph,
+            "scc": scc
+        }
+
+        for name, value in values.items():
+
+            if not math.isfinite(value):
+
+                return jsonify({
+
+                    "status": "error",
+
+                    "message":
+                        f"{name} must be a finite number"
+
+                }), 400
+
+
+        # ----------------------------------------------------
+        # FIND ANIMAL
+        # ----------------------------------------------------
+
+        animal = get_animal_by_tag(
+            tag_id
+        )
+
+
+        # ----------------------------------------------------
+        # CREATE ANIMAL IF NEEDED
+        # ----------------------------------------------------
+
+        if animal is None:
+
+            animal = Animal(
+
+                tag_id=tag_id,
+
+                name=str(
+                    data.get(
+                        "name",
+                        tag_id
+                    )
+                ),
+
+                breed=str(
+                    data.get(
+                        "breed",
+                        "Unknown"
+                    )
+                ),
+
+                age=data.get(
+                    "age"
+                ),
+
+                lactation_number=data.get(
+                    "lactation_number"
+                ),
+
+                farm_id=str(
+                    data.get(
+                        "farm_id",
+                        "FARM-001"
+                    )
+                )
+
+            )
+
+            db.session.add(
+                animal
+            )
+
+            db.session.flush()
+
+
+        # ----------------------------------------------------
+        # RISK CALCULATION
+        # ----------------------------------------------------
+
+        risk = calculate_risk(
+
+            temperature,
+            ec,
+            ph,
+            scc
+
+        )
+
+
+        # ----------------------------------------------------
+        # SENSOR READING
+        # ----------------------------------------------------
+
+        reading = SensorReading(
+
+            animal_id=animal.id,
+
+            temperature=temperature,
+
+            ec=ec,
+
+            ph=ph,
+
+            scc=scc,
+
+            risk_score=
+                risk["risk_score"],
+
+            risk_level=
+                risk["risk_level"],
+
+            temperature_risk=
+                risk["temperature_risk"],
+
+            ec_risk=
+                risk["ec_risk"],
+
+            ph_risk=
+                risk["ph_risk"],
+
+            scc_risk=
+                risk["scc_risk"],
+
+            source=str(
+                data.get(
+                    "source",
+                    "esp32"
+                )
+            )
+
+        )
+
+        db.session.add(
+            reading
+        )
+
+
+        # ----------------------------------------------------
+        # UPDATE ANIMAL
+        # ----------------------------------------------------
+
+        animal.last_risk_score = (
+            risk["risk_score"]
+        )
+
+        animal.last_risk_level = (
+            risk["risk_level"]
+        )
+
+
+        # ----------------------------------------------------
+        # ALERT
+        #
+        # IMPORTANT:
+        # Alert failure must NOT destroy
+        # the ESP32 sensor upload.
+        # ----------------------------------------------------
+
+        alert = None
+
+        try:
+
+            alert = create_risk_alert(
+
+                db=db,
+
+                Alert=Alert,
+
+                Animal=Animal,
+
+                animal=animal,
+
+                risk_score=
+                    risk["risk_score"],
+
+                risk_level=
+                    risk["risk_level"],
+
+                temperature=
+                    temperature,
+
+                ec=ec,
+
+                ph=ph,
+
+                scc=scc
+
+            )
+
+        except Exception as alert_error:
+
+            logger.exception(
+                "ALERT SERVICE FAILED | %s",
+                alert_error
+            )
+
+            # Prevent a failed alert operation
+            # from poisoning the SQLAlchemy transaction.
+            db.session.rollback()
+
+            # Re-fetch the animal after rollback.
+            animal = get_animal_by_tag(
+                tag_id
+            )
+
+            if animal is None:
+
+                return jsonify({
+
+                    "status": "error",
+
+                    "message":
+                        "Database rollback lost animal record"
+
+                }), 500
+
+
+            # Recreate the sensor reading
+            # after transaction rollback.
+
+            reading = SensorReading(
+
+                animal_id=animal.id,
+
+                temperature=temperature,
+
+                ec=ec,
+
+                ph=ph,
+
+                scc=scc,
+
+                risk_score=
+                    risk["risk_score"],
+
+                risk_level=
+                    risk["risk_level"],
+
+                temperature_risk=
+                    risk["temperature_risk"],
+
+                ec_risk=
+                    risk["ec_risk"],
+
+                ph_risk=
+                    risk["ph_risk"],
+
+                scc_risk=
+                    risk["scc_risk"],
+
+                source=str(
+                    data.get(
+                        "source",
+                        "esp32"
+                    )
+                )
+
+            )
+
+            db.session.add(
+                reading
+            )
+
+            animal.last_risk_score = (
+                risk["risk_score"]
+            )
+
+            animal.last_risk_level = (
+                risk["risk_level"]
+            )
+
+
+        # ----------------------------------------------------
+        # DATABASE COMMIT
+        # ----------------------------------------------------
+
+        try:
+
+            db.session.commit()
+
+        except Exception as db_error:
+
+            logger.exception(
+                "DATABASE COMMIT FAILED | %s",
+                db_error
+            )
+
+            db.session.rollback()
+
+            return jsonify({
+
+                "status": "error",
+
+                "message":
+                    "Database commit failed",
+
+                "error":
+                    str(db_error),
+
+                "error_type":
+                    type(db_error).__name__
+
+            }), 500
+
+
+        # ----------------------------------------------------
+        # LOG
+        # ----------------------------------------------------
+
+        logger.info(
+
+            "ESP32 | %s | "
+            "T=%.1f EC=%.2f pH=%.2f SCC=%.1f | "
+            "%s %.1f",
+
+            tag_id,
+
+            temperature,
+
+            ec,
+
+            ph,
+
+            scc,
+
+            risk["risk_level"],
+
+            risk["risk_score"]
+
+        )
+
+
+        # ----------------------------------------------------
+        # RESPONSE
+        # ----------------------------------------------------
 
         return jsonify({
 
-            "status": "error",
+            "status":
+                "success",
 
             "message":
-                "JSON data required"
+                "ESP32 data received",
 
-        }), 400
+            "animal": {
+
+                "id":
+                    animal.id,
+
+                "tag_id":
+                    animal.tag_id,
+
+                "name":
+                    animal.name,
+
+                "breed":
+                    animal.breed,
+
+                "farm_id":
+                    animal.farm_id
+
+            },
+
+            "readings": {
+
+                "temperature":
+                    temperature,
+
+                "ec":
+                    ec,
+
+                "ph":
+                    ph,
+
+                "scc":
+                    scc
+
+            },
+
+            "risk":
+                risk,
+
+            "alert": (
+
+                {
+
+                    "id":
+                        alert.id,
+
+                    "severity":
+                        alert.severity,
+
+                    "type":
+                        alert.alert_type,
+
+                    "message":
+                        alert.message,
+
+                    "resolved":
+                        bool(
+                            alert.resolved
+                        )
+
+                }
+
+                if alert
+
+                else None
+
+            ),
+
+            "source":
+                data.get(
+                    "source",
+                    "esp32"
+                ),
+
+            "timestamp":
+                reading.timestamp.isoformat()
+
+        }), 200
 
 
-    tag_id = str(
-        data.get(
-            "tag_id",
-            "COW-001"
+    # ========================================================
+    # CATCH UNEXPECTED REQUEST ERRORS
+    # ========================================================
+
+    except Exception as error:
+
+        logger.exception(
+            "ESP32 API FAILED | %s",
+            error
         )
-    )
+
+        try:
+            db.session.rollback()
+        except Exception:
+            pass
+
+        return jsonify({
+
+            "status":
+                "error",
+
+            "message":
+                str(error),
+
+            "error_type":
+                type(error).__name__
+
+        }), 500
 
 
     # --------------------------------------------------------
