@@ -402,6 +402,8 @@ class Alert(db.Model):
 with app.app_context():
 
     db.create_all()
+    db.session.execute(db.text("PRAGMA journal_mode=WAL"))
+    db.session.commit()
 
     if Animal.query.count() == 0:
 
